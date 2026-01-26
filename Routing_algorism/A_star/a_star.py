@@ -11,57 +11,57 @@ import point
 import random_map
 
 class AStar:
-    def __init__(self, map):
+    def __init__(self, map): #構造函數，傳入一個地圖對象
         self.map=map
         self.open_set = []
         self.close_set = []
 
-    def BaseCost(self, p):
+    def BaseCost(self, p): #節點到起點的移動代價，對應g(n)
         x_dis = p.x
         y_dis = p.y
         # Distance to start point
         return x_dis + y_dis + (np.sqrt(2) - 2) * min(x_dis, y_dis)
 
-    def HeuristicCost(self, p):
+    def HeuristicCost(self, p): #節點到終點的估計代價，對應h(n)，對角距離
         x_dis = self.map.size - 1 - p.x
         y_dis = self.map.size - 1 - p.y
         # Distance to end point
         return x_dis + y_dis + (np.sqrt(2) - 2) * min(x_dis, y_dis)
 
-    def TotalCost(self, p):
+    def TotalCost(self, p): #節點的總代價，對應f(n)=g(n)+h(n)
         return self.BaseCost(p) + self.HeuristicCost(p)
 
-    def IsValidPoint(self, x, y):
+    def IsValidPoint(self, x, y): #判斷給定的座標(x, y)是否為有效點，不在圖中都是無效點
         if x < 0 or y < 0:
             return False
         if x >= self.map.size or y >= self.map.size:
             return False
         return not self.map.IsObstacle(x, y)
 
-    def IsInPointList(self, p, point_list):
+    def IsInPointList(self, p, point_list): #判斷點是否在給定的某個集合中
         for point in point_list:
             if point.x == p.x and point.y == p.y:
                 return True
         return False
 
-    def IsInOpenList(self, p):
+    def IsInOpenList(self, p): #判斷點是否在OpenSet中   
         return self.IsInPointList(p, self.open_set)
 
-    def IsInCloseList(self, p):
+    def IsInCloseList(self, p): #判斷點是否在CloseSet中
         return self.IsInPointList(p, self.close_set)
 
-    def IsStartPoint(self, p):
+    def IsStartPoint(self, p): #判斷點是否為起點
         return p.x == 0 and p.y ==0
 
-    def IsEndPoint(self, p):
+    def IsEndPoint(self, p): #判斷點是否為終點
         return p.x == self.map.size-1 and p.y == self.map.size-1
 
-    def SaveImage(self, plt):
+    def SaveImage(self, plt): #保存當前圖像到文件
         millis = int(round(time.time() * 1000))
         filename = './' + str(millis) + '.png'
         plt.savefig(filename)
 
-    def ProcessPoint(self, x, y, parent):
+    def ProcessPoint(self, x, y, parent): #處理給定座標(x, y)的點
         if not self.IsValidPoint(x, y):
             return # Do nothing for invalid point
         p = point.Point(x, y)
@@ -73,7 +73,7 @@ class AStar:
             p.cost = self.TotalCost(p)
             self.open_set.append(p)
 
-    def SelectPointInOpenList(self):
+    def SelectPointInOpenList(self): #從OpenSet中選擇總代價最低的點
         index = 0
         selected_index = -1
         min_cost = sys.maxsize
@@ -85,7 +85,7 @@ class AStar:
             index += 1
         return selected_index
 
-    def BuildPath(self, p, ax, plt, start_time):
+    def BuildPath(self, p, ax, plt, start_time): #從終點回溯到起點，構建路徑並在圖上顯示
         path = []
         while True:
             path.insert(0, p) # Insert first
@@ -101,20 +101,20 @@ class AStar:
         end_time = time.time()
         print('===== Algorithm finish in', int(end_time-start_time), ' seconds')
 
-    def RunAndSaveImage(self, ax, plt):
+    def RunAndSaveImage(self, ax, plt): #運行A*算法並保存過程中的圖像
         start_time = time.time()
 
         start_point = point.Point(0, 0)
         start_point.cost = 0
         self.open_set.append(start_point)
 
-        while True:
+        while True: 
             index = self.SelectPointInOpenList()
             if index < 0:
                 print('No path found, algorithm failed!!!')
                 return
             p = self.open_set[index]
-            rec = Rectangle((p.x, p.y), 1, 1, color='c')
+            rec = Rectangle((p.x, p.y), 1, 1, color='c') 
             ax.add_patch(rec)
             self.SaveImage(plt)
 

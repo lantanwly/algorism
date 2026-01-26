@@ -13,9 +13,9 @@ int vis[N];          // 标记节点是否已确定最短路径
 void initmap(){
     memset(mp,INF,sizeof(mp));
     // 补充：节点到自身的距离为0（可选，但逻辑更严谨）
-    for(int i=1;i<N;i++){
-        mp[i][i] = 0;
-    }
+    // for(int i=1;i<N;i++){
+    //     mp[i][i] = 0;
+    // }
 }
 
 // Dijkstra算法（邻接矩阵版）：求解源点s到所有节点的最短路径

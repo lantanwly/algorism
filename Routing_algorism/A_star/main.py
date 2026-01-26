@@ -16,7 +16,7 @@ ax = plt.gca()
 ax.set_xlim([0, map.size])
 ax.set_ylim([0, map.size])
 
-for i in range(map.size):
+for i in range(map.size): # Draw the map
     for j in range(map.size):
         if map.IsObstacle(i,j):
             rec = Rectangle((i, j), width=1, height=1, color='gray')
