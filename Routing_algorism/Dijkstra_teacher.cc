@@ -1,4 +1,5 @@
 #include<cstdio>
+#include<iostream>
 #include<cstring>
 #define INF 0x3f3f3f3f  // 安全的无穷大值（避免溢出，memset可正确赋值）
 using namespace std;
@@ -8,6 +9,7 @@ int n,m;             // n：节点数，m：边数
 int mp[N][N];        // 邻接矩阵存储图
 int dis[N];          // 源点到各节点的最短距离
 int vis[N];          // 标记节点是否已确定最短路径
+int pre[N];          // 记录最短路径上的前驱节点（可选）
 
 // 初始化邻接矩阵：所有边初始为无穷大（表示无边）
 void initmap(){
@@ -42,20 +44,30 @@ void dijkstra(int s) {
             // 仅当k未确定、mini到k有边、新路径更短时更新
             if(!vis[k] && mp[mini][k] != INF && dis[k] > dis[mini] + mp[mini][k]){
                 dis[k] = dis[mini] + mp[mini][k];
+                pre[k] = mini;  // 记录前驱节点（可选）
             }
         }
     } // 补全while循环的闭合大括号（之前缺失）
 } // 补全dijkstra函数的闭合大括号（之前缺失）
 
+
+//求到z的最短路徑
+void output(int z){
+    if(z==0) return;
+    output(pre[z]);
+    cout<<z<<"->";
+}
+
 int main() {
+    memset(pre,-1,sizeof(pre)); // 初始化前驱节点数组
     // 循环读取输入：n=0时终止
-    while(scanf("%d%d",&n,&m)!=EOF && n!=0){
+    while(cin>>n>>m && n!=0){
         initmap();  // 初始化邻接矩阵
         
         // 输入m条边（无向图，u<->v，权值w）
         for(int i=0;i<m;i++){
             int u,v,w;
-            scanf("%d%d%d",&u,&v,&w);
+            cin>>u>>v>>w;
             // 无向图：双向赋值，且保留最小权值（避免重边）
             if(mp[u][v] > w){
                 mp[u][v] = w;
@@ -67,7 +79,12 @@ int main() {
         dijkstra(1);  // 求解从节点1到所有节点的最短路径
         
         // 关键修正：print→printf（C++无print函数）
-        printf("%d\n",dis[n]);  // 输出节点1到节点n的最短距离
+        cout<<dis[n]<<"\n";  // 输出节点1到节点n的最短距离
+    }
+    cout<<endl;
+    for(int i=1;i<n;i++){
+        output(i);
+        cout<<endl;
     }
     return 0;
 } // 补全main函数的闭合大括号
