@@ -1,4 +1,5 @@
 {
     "cmake.sourceDirectory": "/home/tan/Desktop/Codefile/algorism/Routing_algorism",
-    "C_Cpp.errorSquiggles": "disabled"
+    "C_Cpp.errorSquiggles": "disabled",
+    "cmake.ignoreCMakeListsMissing": true
 }
