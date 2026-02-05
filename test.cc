@@ -10,17 +10,9 @@ int main(int argc, char** argv){
     bool debug = (argc > 1 && string(argv[1]) == "debug");  // 检查命令行参数是否为"debug"，启用调试输出
     //argc是命令行参数的个数，argv是参数数组，argv[0]是程序名，argv[1]是第一个参数
 
-    int x, y, z;
-    // 输出内容：不带换行符，避免行缓冲刷新
-    cout << "测试1："; 
-    cout << "测试2：";
-    cout << "测试3：";
-
-    // 一次性输入3个数字（避免逐行输入触发刷新）
-    cin >> x >> y >> z;
-
-    // 程序结束前，手动刷新缓冲区（验证内容都在缓冲区里）
-    cout << "\n输入的数字：" << x << " " << y << " " << z << endl;
+    int x=0, y=0, z=0;
+    if(!(cin>>x>>y)) return 0;
+    cout<<x<<" "<<y;
 
     return 0;
 }

@@ -99,7 +99,7 @@ int main(int argc, char** argv){
         for(int cur = i; cur != -1; cur = pre[cur]) path.push_back(cur);  // 从目标节点回溯到源节点
         reverse(path.begin(), path.end());  // 反转路径，使其从源到目标
         // 打印路径，如1->2->3
-        for(size_t k=0;k<path.size();k++){
+        for(size_t k=0;k<path.size();k++){//size_t更规范
             cout << path[k];
             if(k+1<path.size()) cout << "->";
         }
