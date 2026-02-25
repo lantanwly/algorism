@@ -60,7 +60,7 @@ int main(int argc,char**argv){
         for(int k=i;pre[k]!=-1;k=pre[k]) path.push_back(k);
         reverse(path.begin(),path.end());
         cout<<s<<"->";
-            //打印路径
+            //打印路径       
         for(size_t k=0;k<path.size();k++){
             cout<<path[k];
             if(k+1<path.size()) cout<<"->";
